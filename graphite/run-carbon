@@ -1,0 +1,38 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          carbon-cache
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Graphite Carbon backend daemon
+# Description:       backend data caching and persistence daemon for Graphite
+### END INIT INFO
+
+# Author: Jonas Genannt <jonas.genannt@capi2name.de>
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="Graphite backend daemon"
+NAME=carbon-cache
+DAEMON=/usr/bin/$NAME
+PIDFILE=/var/run/$NAME.pid
+DAEMON_ARGS="--config=/etc/carbon/carbon.conf --pidfile=$PIDFILE --logdir=/var/log/carbon/ --debug start"
+SCRIPTNAME=/etc/init.d/$NAME
+
+[ -x "$DAEMON" ] || exit 0
+
+[ -r /etc/default/graphite-carbon ] && . /etc/default/graphite-carbon
+
+. /lib/lsb/init-functions
+
+if [ ! -r /etc/carbon/carbon.conf ]; then
+	[ "$VERBOSE" != no ] && echo "Missing /etc/carbon/carbon.conf - not starting."
+	exit 0
+fi
+
+if [ "$CARBON_CACHE_ENABLED" != "true" ] ; then
+	[ "$VERBOSE" != no ] && echo "carbon-cache disabled in /etc/default/graphite-carbon"
+	exit 0
+fi
+
+exec /usr/bin/python $DAEMON $DAEMON_ARGS
