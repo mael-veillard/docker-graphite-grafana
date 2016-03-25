@@ -16,7 +16,7 @@ RUN sed -i 's/^CARBON_CACHE_ENABLED=.*$/CARBON_CACHE_ENABLED=true/' /etc/default
     cp /usr/share/graphite-web/apache2-graphite.conf /etc/apache2/sites-available && \
     sed -i 's/\*:80>/\*:8080>/' /etc/apache2/sites-available/apache2-graphite.conf && \
     echo 'Listen 8080' >> /etc/apache2/ports.conf && \
-    a2dissite 000-default && a2ensite apache2-graphite 
+    a2dissite 000-default && a2ensite apache2-graphite
 
 # Install Grafana
 RUN echo 'deb https://packagecloud.io/grafana/stable/debian wheezy main' >> /etc/apt/sources.list && \
