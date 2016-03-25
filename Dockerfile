@@ -33,7 +33,7 @@ ADD ./grafana/run-grafana /usr/sbin/run-grafana
 RUN a2enmod proxy proxy_http xml2enc && \
     a2ensite apache2-grafana && \
     chown :grafana /etc/grafana/grafana.ini
-ADD ./first_run.sh /usr/sbin/first_run.sh
+ADD ./scripts/run_graphite_grafana.sh /usr/sbin/run_graphite_grafana.sh
 ADD ./supervisord/graphite-grafana.conf /etc/supervisor/conf.d/graphite-grafana.conf
 
 # Ports
@@ -45,4 +45,4 @@ ADD ./supervisord/graphite-grafana.conf /etc/supervisor/conf.d/graphite-grafana.
 
 EXPOSE 80 8080 2003 2004 7002
 
-CMD [ "/usr/sbin/first_run.sh" ]
+CMD [ "/usr/sbin/run_graphite_grafana.sh" ]
