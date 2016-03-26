@@ -27,7 +27,7 @@ if grep -q '@DB_USER@' /etc/grafana/grafana.ini; then
     done
 
     CHECK_CNT=0
-    while [ "$CHECK_CNT" -leq "$MAX_CHECK" ]; do
+    while [ "$CHECK_CNT" -le "$MAX_CHECK" ]; do
         psql -lqt 1>/dev/null 2>&1
         if [ "$?" -eq 0 ]; then
             break
@@ -36,7 +36,7 @@ if grep -q '@DB_USER@' /etc/grafana/grafana.ini; then
         sleep $SLEEP
     done
 
-    if [ "$CHECK_CNT" -geq "$MAX_CHECK" ]; then
+    if [ "$CHECK_CNT" -ge "$MAX_CHECK" ]; then
         echo "Could not contact database in $(($SLEEP * $MAX_CHECK)) seconds."
         exit 1
     fi
