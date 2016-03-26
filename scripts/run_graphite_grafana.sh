@@ -14,8 +14,8 @@ if grep -q '@DB_USER@' /etc/grafana/grafana.ini; then
     DB_PASSWORD="${DB_PASSWORD:-graphite}"
     DB_GRAPHITE_NAME="${DB_GRAPHITE_NAME:-graphite}"
     DB_GRAFANA_NAME="${DB_GRAFANA_NAME:-grafana}"
-    DB_HOST="${DB_HOST:-postgres}"
-    DB_PORT="${DB_PORT:-5432}"
+    DB_HOST="${PGHOST:-postgres}"
+    DB_PORT="${PGPORT:-5432}"
 
     for CONFIG_FILE in /etc/grafana/grafana.ini /etc/graphite/local_settings.py; do
         sed -i -e "s/@DB_USER@/$DB_USER/" \
