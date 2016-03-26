@@ -1,0 +1,30 @@
+version: '2'
+services:
+  graph:
+    image: ohamada/graphite-grafana
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "2003:2003"
+      - "2004:2004"
+      - "7002:7002"
+    environment:
+      - PGHOST=postgres
+      - PGUSER=pgadmin
+      - PGPASSWORD=pgadmin
+    volumes:
+      - /srv/graphite-grafana/graphite:/var/lib/graphite/whisper
+    links:
+      - db:postgres
+    depends_on:
+      - db
+  db:
+    image: postgres:9.5
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=pgadmin
+      - POSTGRES_PASSWORD=pgadmin
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - /srv/graphite-grafana/pgdata:/var/lib/postgresql/data/pgdata:rw
