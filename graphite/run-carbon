@@ -35,4 +35,5 @@ if [ "$CARBON_CACHE_ENABLED" != "true" ] ; then
 	exit 0
 fi
 
+chown -R _graphite:_graphite /var/lib/graphite/whisper
 exec /usr/bin/python $DAEMON $DAEMON_ARGS
